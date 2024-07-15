@@ -9,13 +9,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App() {
+fun App(
+    batteryManager: BatteryManager
+) {
     MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "KMP Practice")
+            Text(text = "Current battery level: ${batteryManager.getBatteryLevel()}")
         }
     }
 }

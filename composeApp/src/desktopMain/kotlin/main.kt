@@ -6,6 +6,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "KmpComposePractice",
     ) {
-        App()
+        App(
+            batteryManager = BatteryManager()
+        )
     }
 }
