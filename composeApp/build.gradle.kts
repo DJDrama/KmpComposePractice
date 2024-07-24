@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -36,6 +37,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.ktor.client.okhttp) // jvm based
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -44,9 +47,18 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.bundles.ktor)
         }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin) // native based
+        }
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+
+            implementation(libs.ktor.client.okhttp) // jvm based
         }
     }
 }
