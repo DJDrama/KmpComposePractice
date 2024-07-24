@@ -1,0 +1,1 @@
+fun getStringLength(string: String) = string.length // only for desktop
