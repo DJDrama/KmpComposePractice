@@ -44,6 +44,9 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            api(libs.datastore.preferences)
+            api(libs.datastore)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
