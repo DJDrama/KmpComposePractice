@@ -1,21 +1,62 @@
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        Box(
+        val factory = rememberPermissionsControllerFactory()
+        val controller = remember(factory) {
+            factory.createPermissionsController()
+        }
+
+        // lifecycle aware
+        BindEffect(controller)
+
+        val viewModel = viewModel {
+            PermissionsViewModel(controller = controller)
+        }
+
+        Column(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "KMP Practice")
+            when (viewModel.state) {
+                PermissionState.Granted -> {
+                    Text(text = "Record audio permission granted!")
+                }
+
+                PermissionState.DeniedAlways -> {
+                    Text(text = "Permission was permanently declined.")
+                    Button(onClick = {
+                        controller.openAppSettings()
+                    }) {
+                        Text("Open app settings")
+                    }
+                }
+
+                else -> {
+                    Button(onClick = {
+                        viewModel.provideOrRequestRecordAudioPermission()
+                    }) {
+                        Text("Request permission")
+                    }
+                }
+            }
         }
     }
 }

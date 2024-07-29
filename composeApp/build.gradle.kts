@@ -44,6 +44,11 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
+            api(libs.moko.permissions)
+            api(libs.moko.permissions.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
